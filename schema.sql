@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS employee_management_system;
 USE employee_management_system;
 
 -- 1) Departments
@@ -20,7 +19,8 @@ CREATE TABLE Positions (
     dept_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_position_salary CHECK (min_salary >= 0 AND max_salary >= min_salary),
-    CONSTRAINT fk_position_department FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+    CONSTRAINT fk_position_department 
+        FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
         ON DELETE SET NULL
 );
 
@@ -40,11 +40,14 @@ CREATE TABLE Employees (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT chk_employee_email CHECK (email LIKE '%@%.%'),
-    CONSTRAINT fk_employee_department FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+    CONSTRAINT fk_employee_department 
+        FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
         ON DELETE SET NULL,
-    CONSTRAINT fk_employee_position FOREIGN KEY (position_id) REFERENCES Positions(position_id)
+    CONSTRAINT fk_employee_position 
+        FOREIGN KEY (position_id) REFERENCES Positions(position_id)
         ON DELETE SET NULL,
-    CONSTRAINT fk_employee_manager FOREIGN KEY (manager_id) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_employee_manager 
+        FOREIGN KEY (manager_id) REFERENCES Employees(emp_id)
         ON DELETE SET NULL
 );
 
@@ -59,7 +62,8 @@ CREATE TABLE Salary_History (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_salary_positive CHECK (salary_amount > 0),
     CONSTRAINT chk_salary_dates CHECK (effective_to IS NULL OR effective_to >= effective_from),
-    CONSTRAINT fk_salary_employee FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_salary_employee 
+        FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
         ON DELETE CASCADE
 );
 
@@ -75,14 +79,14 @@ CREATE TABLE Projects (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_project_budget CHECK (budget >= 0),
     CONSTRAINT chk_project_dates CHECK (end_date IS NULL OR end_date >= start_date),
-    CONSTRAINT fk_project_manager FOREIGN KEY (project_manager_id) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_project_manager 
+        FOREIGN KEY (project_manager_id) REFERENCES Employees(emp_id)
         ON DELETE SET NULL
 );
 
--- 6) Employee Projects (many-to-many)
- CREATE TABLE Employee_Projects (
-     assignment_id INT AUTO_INCREMENT PRIMARY KEY,
-\ No newline at end of file
+-- 6) Employee Projects
+CREATE TABLE Employee_Projects (
+    assignment_id INT AUTO_INCREMENT PRIMARY KEY,
     emp_id INT NOT NULL,
     project_id INT NOT NULL,
     role_name VARCHAR(80) NOT NULL,
@@ -92,9 +96,11 @@ CREATE TABLE Projects (
     CONSTRAINT chk_allocation_percent CHECK (allocation_percent BETWEEN 0 AND 100),
     CONSTRAINT chk_assignment_dates CHECK (released_on IS NULL OR released_on >= assigned_on),
     CONSTRAINT uq_employee_project UNIQUE (emp_id, project_id),
-    CONSTRAINT fk_assignment_employee FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_assignment_employee 
+        FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
         ON DELETE CASCADE,
-    CONSTRAINT fk_assignment_project FOREIGN KEY (project_id) REFERENCES Projects(project_id)
+    CONSTRAINT fk_assignment_project 
+        FOREIGN KEY (project_id) REFERENCES Projects(project_id)
         ON DELETE CASCADE
 );
 
@@ -107,7 +113,8 @@ CREATE TABLE Attendance (
     check_out TIME,
     attendance_status ENUM('Present', 'Absent', 'Leave', 'Half Day') DEFAULT 'Present',
     CONSTRAINT uq_attendance_emp_day UNIQUE (emp_id, attendance_date),
-    CONSTRAINT fk_attendance_employee FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_attendance_employee 
+        FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
         ON DELETE CASCADE
 );
 
@@ -123,8 +130,10 @@ CREATE TABLE Leave_Requests (
     approved_by INT,
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_leave_dates CHECK (end_date >= start_date),
-    CONSTRAINT fk_leave_employee FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_leave_employee 
+        FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
         ON DELETE CASCADE,
-    CONSTRAINT fk_leave_approver FOREIGN KEY (approved_by) REFERENCES Employees(emp_id)
+    CONSTRAINT fk_leave_approver 
+        FOREIGN KEY (approved_by) REFERENCES Employees(emp_id)
         ON DELETE SET NULL
 );
