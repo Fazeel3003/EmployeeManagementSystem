@@ -1,10 +1,6 @@
-CREATE DATABASE IF NOT EXISTS EmployeeManagementSystem;
-USE EmployeeManagementSystem;
+CREATE DATABASE IF NOT EXISTS employee_management_system;
+USE employee_management_system;
 
--- ========================================
--- TABLE 1: DEPARTMENTS
--- Purpose: Organizational structure and hierarchy
--- ========================================
 -- 1) Departments
 CREATE TABLE Departments (
     dept_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,10 +11,6 @@ CREATE TABLE Departments (
     CONSTRAINT chk_department_budget CHECK (budget >= 0)
 );
 
--- ========================================
--- TABLE 2: POSITIONS
--- Purpose: Job roles and position definitions
--- ========================================
 -- 2) Positions
 CREATE TABLE Positions (
     position_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,10 +24,6 @@ CREATE TABLE Positions (
         ON DELETE SET NULL
 );
 
--- ========================================
--- TABLE 3: EMPLOYEES
--- Purpose: Core employee information and records
--- ========================================
 -- 3) Employees
 CREATE TABLE Employees (
     emp_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,10 +39,6 @@ CREATE TABLE Employees (
     manager_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
--- ========================================
--- TABLE 5: SALARY_HISTORY
--- Purpose: Complete salary history and compensation tracking
--- ========================================
     CONSTRAINT chk_employee_email CHECK (email LIKE '%@%.%'),
     CONSTRAINT fk_employee_department FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
         ON DELETE SET NULL,
@@ -79,10 +63,6 @@ CREATE TABLE Salary_History (
         ON DELETE CASCADE
 );
 
--- ========================================
--- TABLE 7: PROJECTS
--- Purpose: Project management and tracking
--- ========================================
 -- 5) Projects
 CREATE TABLE Projects (
     project_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -99,10 +79,6 @@ CREATE TABLE Projects (
         ON DELETE SET NULL
 );
 
--- ========================================
--- TABLE 8: EMPLOYEE_PROJECTS
--- Purpose: Many-to-many relationship between employees and projects
--- ========================================
 -- 6) Employee Projects (many-to-many)
  CREATE TABLE Employee_Projects (
      assignment_id INT AUTO_INCREMENT PRIMARY KEY,
