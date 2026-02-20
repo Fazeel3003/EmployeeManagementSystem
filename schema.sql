@@ -1,5 +1,3 @@
-USE employee_management_system;
-
 -- 1) Departments
 CREATE TABLE Departments (
     dept_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -136,4 +134,4 @@ CREATE TABLE Leave_Requests (
     CONSTRAINT fk_leave_approver 
         FOREIGN KEY (approved_by) REFERENCES Employees(emp_id)
         ON DELETE SET NULL
-);
+); 
