@@ -23,7 +23,7 @@ VALUES
 ('EMP003', 'David', 'Lee', 'david.lee@company.com', '1234567892', '2023-06-01', 'Active', 2, 3, 1),
 ('EMP004', 'Emily', 'Brown', 'emily.brown@company.com', '1234567893', '2020-11-20', 'Active', 3, 4, NULL),
 ('EMP005', 'Michael', 'Davis', 'michael.davis@company.com', '1234567894', '2022-09-05', 'On Leave', 4, 5, NULL),
-('EMP006', 'Laura', 'Wilson', 'laura.wilson@company.com', '1234567895', '2021-07-18', 'Active', 5, 6, NULL);
+('EMP006', 'Laura', 'Wilson', 'laura.wilson@company.com', '1234567895', '2021-07-18', 'Active', 5, 6, NULL),
 ('EMP007', 'Daniel', 'Martinez', 'daniel.m@company.com', '1234567896', '2022-04-12', 'Active', 2, 2, 1),
 ('EMP008', 'Sophia', 'Anderson', 'sophia.a@company.com', '1234567897', '2023-02-01', 'Active', 2, 2, 1),
 ('EMP009', 'James', 'Taylor', 'james.t@company.com', '1234567898', '2021-09-10', 'Active', 3, 4, 4),
