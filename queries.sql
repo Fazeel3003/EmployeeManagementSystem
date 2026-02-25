@@ -1,12 +1,12 @@
-/* =========================================================
+/* 
    EMPLOYEE MANAGEMENT SYSTEM - ADVANCED REPORTING QUERIES
    Author: Fazeel
    Description: Complex analytical queries for reporting
-   ========================================================= */
+    */
 
-/* ---------------------------------------------------------
+/*  
    1. SECOND HIGHEST SALARY (Handles ties)
-   --------------------------------------------------------- */
+ */
 SELECT e.emp_id,
        e.first_name,
        e.last_name,
@@ -20,9 +20,9 @@ WHERE sh.salary_amount = (
     ORDER BY salary_amount DESC
     LIMIT 1 OFFSET 1
 );
-/* ---------------------------------------------------------
+/* 
    2. HIGHEST PAID EMPLOYEE PER DEPARTMENT
-   --------------------------------------------------------- */
+    */
    SELECT d.dept_name,
        e.first_name,
        e.last_name,
@@ -37,9 +37,9 @@ WHERE sh.salary_amount = (
     WHERE e2.dept_id = d.dept_id
 );
 
-/* ---------------------------------------------------------
+/* 
    3. Total Salary Expense Per Department
-   --------------------------------------------------------- */
+    */
    SELECT d.dept_name,
        SUM(sh.salary_amount) AS total_salary_expense
 FROM Departments d
@@ -49,9 +49,9 @@ GROUP BY d.dept_name
 ORDER BY total_salary_expense DESC;
 
 
-   /* ---------------------------------------------------------
+   /*
    4. Employees Working on More Than One Project
-   --------------------------------------------------------- */
+   */
    SELECT e.emp_id,
        e.first_name,
        e.last_name,
@@ -62,9 +62,9 @@ GROUP BY e.emp_id
 HAVING COUNT(ep.project_id) > 1;
 
 
-   /* ---------------------------------------------------------
+   /* 
    5. Department With Highest Average Salary
-   --------------------------------------------------------- */
+    */
    SELECT d.dept_name,
        AVG(sh.salary_amount) AS avg_salary
 FROM Departments d
@@ -75,9 +75,9 @@ ORDER BY avg_salary DESC
 LIMIT 1;
 
 
-   /* ---------------------------------------------------------
+   /* 
    6. Employees Earning More Than Their Manager
-   --------------------------------------------------------- */
+    */
    SELECT e.first_name AS employee,
        m.first_name AS manager,
        sh.salary_amount AS employee_salary,
@@ -89,9 +89,9 @@ JOIN Salary_History msh ON m.emp_id = msh.emp_id
 WHERE sh.salary_amount > msh.salary_amount;
 
 
-   /* ---------------------------------------------------------
+   /* 
    7. Projects Over Budget (Based on Total Allocated Salary)
-   --------------------------------------------------------- */
+    */
    SELECT p.project_name,
        p.budget,
        SUM(sh.salary_amount * (ep.allocation_percent/100)) AS estimated_cost
@@ -102,18 +102,18 @@ GROUP BY p.project_id
 HAVING estimated_cost > p.budget;
 
 
-   /* ---------------------------------------------------------
+   /* 
    8. Employees With No Project Assigned
-   --------------------------------------------------------- */
+    */
    SELECT e.emp_id,
        e.first_name,
        e.last_name
 FROM Employees e
 LEFT JOIN Employee_Projects ep ON e.emp_id = ep.emp_id
 WHERE ep.project_id IS NULL;
-/* ---------------------------------------------------------
+/* 
    9. Monthly Attendance Percentage Per Employee
-   --------------------------------------------------------- */
+    */
    SELECT e.emp_id,
        e.first_name,
        COUNT(CASE WHEN a.attendance_status = 'Present' THEN 1 END) * 100.0 /
@@ -123,9 +123,9 @@ JOIN Attendance a ON e.emp_id = a.emp_id
 GROUP BY e.emp_id;
 
 
-   /* ---------------------------------------------------------
+   /* 
    10. Employees Who Took Most Leave Days
-   --------------------------------------------------------- */
+    */
    SELECT e.emp_id,
        e.first_name,
        SUM(DATEDIFF(l.end_date, l.start_date) + 1) AS total_leave_days
